@@ -38,6 +38,59 @@ Do NOT use for multi-chain yields -- use defi_find_best_yields instead. Do NOT u
         },
         required: [],
       },
+      outputSchema: {
+          "type": "object",
+          "properties": {
+            "chain": {
+              "type": "string",
+              "description": "Chain name (base)"
+            },
+            "protocol": {
+              "type": "string",
+              "description": "Protocol filter applied"
+            },
+            "results": {
+              "type": "number",
+              "description": "Number of opportunities returned"
+            },
+            "avgApy": {
+              "type": "number",
+              "description": "Average APY across results"
+            },
+            "totalTvl": {
+              "type": "string",
+              "description": "Total TVL formatted"
+            },
+            "opportunities": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "protocol": {
+                    "type": "string"
+                  },
+                  "pool": {
+                    "type": "string"
+                  },
+                  "apyTotal": {
+                    "type": "number"
+                  },
+                  "tvlUsd": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "timestamp": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "chain",
+            "results",
+            "opportunities"
+          ]
+        },
     },
   ],
 };
