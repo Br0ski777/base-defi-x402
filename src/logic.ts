@@ -133,9 +133,9 @@ async function fetchBaseOpportunities(protocolFilter: string): Promise<Opportuni
 }
 
 export function registerRoutes(app: Hono) {
-  app.get("/api/opportunities", async (c) => {
+  async function handleOpportunities(c: any, params: { protocol?: string }) {
     await tryRequirePayment(0.003);
-    const protocol = (c.req.query("protocol") || "all").toLowerCase();
+    const protocol = (params.protocol || "all").toLowerCase();
 
     if (!["all", "aerodrome", "moonwell"].includes(protocol)) {
       return c.json({ error: "Invalid protocol. Use 'all', 'aerodrome', or 'moonwell'." }, 400);
@@ -172,5 +172,18 @@ export function registerRoutes(app: Hono) {
     } catch (err: any) {
       return c.json({ error: "Failed to fetch DeFi opportunities", details: err.message }, 502);
     }
+  }
+
+  app.get("/api/opportunities", async (c) => {
+    return handleOpportunities(c, { protocol: c.req.query("protocol") });
+  });
+
+  // POST mirror of the GET route above -- Bazaar (CDP) only reliably indexes
+  // POST payments with valid payloads (~82% conversion vs ~14% for GET-only
+  // resources, confirmed empirically). Same params, same logic, just body
+  // instead of query string.
+  app.post("/api/opportunities", async (c) => {
+    const body = await c.req.json().catch(() => ({}) as any);
+    return handleOpportunities(c, { protocol: body.protocol });
   });
 }
