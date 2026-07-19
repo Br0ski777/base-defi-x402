@@ -9,7 +9,7 @@ export const API_CONFIG: ApiConfig = {
     {
       method: "GET",
       path: "/api/opportunities",
-      price: "$0.003",
+      price: "$0.008",
       description: "Get DeFi yield opportunities on Base chain",
       toolName: "base_get_defi_opportunities",
       toolDescription: `Use this when you need DeFi yield opportunities specifically on Base chain. Returns Base-native protocol yields in JSON.
@@ -95,7 +95,7 @@ Do NOT use for multi-chain yields -- use defi_find_best_yields instead. Do NOT u
     {
       method: "POST",
       path: "/api/opportunities",
-      price: "$0.003",
+      price: "$0.008",
       description: "Get DeFi yield opportunities on Base chain (POST variant)",
       toolName: "base_get_defi_opportunities",
       toolDescription: `Use this when you need DeFi yield opportunities specifically on Base chain. Returns Base-native protocol yields in JSON. POST variant of base_get_defi_opportunities -- same params passed as JSON body instead of query string.
