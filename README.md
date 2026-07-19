@@ -35,7 +35,8 @@ Any x402-aware client ([`@x402/fetch`](https://www.npmjs.com/package/@x402/fetch
 
 | Tool | Method | Path | Price | Description |
 |---|---|---|---|---|
-| `base_get_defi_opportunities` | GET | `/api/opportunities` | $0.003 | Get DeFi yield opportunities on Base chain |
+| `base_get_defi_opportunities` | GET | `/api/opportunities` | $0.008 | Get DeFi yield opportunities on Base chain |
+| `base_get_defi_opportunities` | POST | `/api/opportunities` | $0.008 | Get DeFi yield opportunities on Base chain (POST variant) |
 
 ### `base_get_defi_opportunities`
 
@@ -67,8 +68,39 @@ Example response:
 
 **Not for**: swap quotes on Base (use `dex_get_swap_quote`), liquidation risk (use `defi_get_liquidation_levels`).
 
+### `base_get_defi_opportunities`
+
+Use this when you need DeFi yield opportunities specifically on Base chain. Returns Base-native protocol yields in JSON. POST variant of base_get_defi_opportunities -- same params passed as JSON body instead of query string.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `protocol` | string | no | Filter by protocol: 'all', 'aerodrome', or 'moonwell'. Defaults to 'all'. |
+
+**Returns**
+
+- `opportunities` -- array of yield farms ranked by APY
+- `protocol` -- protocol name (Aerodrome, Moonwell)
+- `pool` -- pool name and token pair
+- `apy` -- current annual percentage yield
+- `tvl` -- total value locked in USD
+- `riskScore` -- risk rating (1-10, lower is safer)
+- `type` -- yield type (LP, lending, staking)
+
+Example response:
+
+```json
+{"opportunities":[{"protocol":"Aerodrome","pool":"USDC/WETH","apy":18.5,"tvl":45000000,"riskScore":3,"type":"LP"},{"protocol":"Moonwell","pool":"USDC Lending","apy":5.2,"tvl":120000000,"riskScore":1,"type":"lending"}],"chain":"base","totalPools":12}
+```
+
+**When to use**: deploying capital on Base chain specifically. Curated list of vetted Base-native protocols only.
+
+**Not for**: swap quotes on Base (use `dex_get_swap_quote`), liquidation risk (use `defi_get_liquidation_levels`).
+
 ## Example agent prompts
 
+- "DeFi yield opportunities specifically on Base chain"
 - "DeFi yield opportunities specifically on Base chain"
 
 ## Payment
